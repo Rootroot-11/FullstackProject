@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-//to do helmet, cors, fileUpload
+//todo helmet, cors, fileUpload
 mongoose.connect('mongodb://localhost:27017/device_store')
     .then(() => console.log('MongoDB has started ...')
     )

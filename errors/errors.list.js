@@ -20,12 +20,12 @@ module.exports = {
     },
 
     USER_UPDATE: {
-        message: 'USER is UPDATE',
+        message: 'User is update',
         status: 201
     },
 
     USER_DELETE: {
-        message: 'USER DELETED',
+        message: 'User deleted',
         status: 204
     },
 

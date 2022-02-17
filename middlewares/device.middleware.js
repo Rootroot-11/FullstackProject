@@ -1,5 +1,6 @@
 const Device = require('../dataBase/Device');
 const deviceValidator = require('../validators/device.validator');
+const {BAD_REQUEST, ErrorHandler} = require("../errors");
 
 module.exports = {
     createDeviceMiddleware: async (req, res, next) => {
@@ -7,7 +8,7 @@ module.exports = {
             const {id} = req.body;
             const deviceById = Device.findOne({id});
             if (deviceById) {
-                throw new Error('Id already exist');
+                throw new Error('fdkjfjdf');
             }
 
             next();
@@ -21,7 +22,7 @@ module.exports = {
             const {error, value} = deviceValidator.createDeviceValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(error.details[0].message, BAD_REQUEST.status);
             }
             req.user = value;
 

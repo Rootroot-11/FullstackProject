@@ -1,5 +1,6 @@
 const User = require('../dataBase/User');
 const ErrorHandler = require('../errors/ErrorHandler');
+const {USER_NOT_FOUND} = require("../errors");
 
 module.exports = {
     checkIdMiddleware: async (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports = {
             const oneUser = await User.findById(user_id).select('-password');
 
             if (!oneUser) {
-                throw new ErrorHandler('Error not found');
+                throw new ErrorHandler(USER_NOT_FOUND.message, USER_NOT_FOUND.status);
             }
             req.user = oneUser;
             next();
