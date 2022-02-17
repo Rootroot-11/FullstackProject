@@ -3,10 +3,12 @@ const Device = require('../dataBase/Device');
 module.exports = {
     getAllDevice: async (req, res, next) => {
         try {
-            const {limit = 20, page = 1, ...filters} = req.query;
+            const {limit = 20, page = 1, sortBy = 'createdAt', order = 'asc', ...filters} = req.query;
             const skip = (page - 1) * limit;
             const keys = Object.keys(filters);
             const filterObject = {};
+            const orderBy = order === 'asc' ? -1 : 1;
+            const sort = { [sortBy]: orderBy };
 
             keys.forEach((key) => {
                 switch (key) {
