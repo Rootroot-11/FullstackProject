@@ -16,7 +16,7 @@ router.get(
 
 router.post(
     '/',
-    // userMiddleware.isUserBodyValid(userValidator.createUserValidator),
+    userMiddleware.isUserBodyValid(userValidator.createUserValidator),
     userMiddleware.createUserMiddleware,
     userController.createUser
 );

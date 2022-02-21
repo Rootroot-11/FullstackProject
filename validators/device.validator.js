@@ -7,14 +7,13 @@ const createDeviceValidator = Joi.object({
         .min(2)
         .max(30)
         .trim()
-        .lowercase()
         .required(),
     price: Joi
         .number()
         .required(),
     rating: Joi
         .number()
-        .max(5),
+        .max(10),
     type: Joi
         .string(),
     brand: Joi

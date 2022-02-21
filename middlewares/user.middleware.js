@@ -6,7 +6,7 @@ module.exports = {
         try {
             const {email} = req.body;
 
-            const userByEmail = await User.findOne({email});
+            const userByEmail = await User.findOne({email}).select('-password');
 
             if(userByEmail) {
                 throw new ErrorHandler(BAD_REQUEST.message, BAD_REQUEST.status);
@@ -23,7 +23,7 @@ module.exports = {
             const {error, value} = validator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(error.details[0].message, BAD_REQUEST.status);
+                throw new ErrorHandler(BAD_REQUEST.message, BAD_REQUEST.status);
             }
 
             req.user = value;

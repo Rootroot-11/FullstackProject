@@ -22,6 +22,7 @@ module.exports = {
 
             const newUser = await User.create({...req.body, password: hashedPassword});
             await emailService.sendMail(email, WELCOME, {nick_name});
+            userUtil.userNormalizator(newUser);
 
             res.json(newUser);
         } catch (e) {

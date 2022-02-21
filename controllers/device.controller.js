@@ -1,5 +1,5 @@
 const Device = require('../dataBase/Device');
-const {WELCOME, POST_DEVICE} = require("../configs/email-action.enum");
+const {WELCOME, POST_DEVICE, UPDATE} = require("../configs/email-action.enum");
 const {emailService} = require("../service");
 
 module.exports = {
@@ -48,15 +48,12 @@ module.exports = {
 
     createDevice: async (req, res, next) => {
         try {
-            const {email, device_name} = req.body;
-            // const {img} = req.files;
-            // let filename = uuid.v4() + ".jpg"
-            // img.mv(path.resolve(__dirname, '--', 'static', filename))
+            const {email, name, price, brand} = req.body;
 
             //img get from s3 AWS
             const newDevice = await Device.create({...req.body});
 
-            await emailService.sendMail(email, POST_DEVICE, {device_name})
+            await emailService.sendMail(email, POST_DEVICE, {name, price, brand})
             res.json(newDevice);
         } catch (e) {
             next(e);
@@ -65,11 +62,13 @@ module.exports = {
 
     updateDevice: async (req, res, next) => {
         try {
-            const {price} = req.params;
+            const {device_id, price} = req.params;
 
-            const newDevice = await Device.findByIdAndUpdate(price);
+            const device = await Device.findByIdAndUpdate(device_id, req.body, {new: true}).lean();
 
-            res.json(newDevice);
+            await emailService.sendMail(device.email, UPDATE, {deviceName: device.name, price});
+
+            res.json(device);
         } catch (e) {
             next(e);
         }

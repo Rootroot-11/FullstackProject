@@ -5,8 +5,8 @@ const {USER_NOT_FOUND} = require("../errors");
 module.exports = {
     checkIdMiddleware: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
-            const oneDevice = await Device.findById(user_id);
+            const {device_id} = req.params;
+            const oneDevice = await Device.findById(device_id);
 
             if (!oneDevice) {
                 throw new ErrorHandler(USER_NOT_FOUND.message, USER_NOT_FOUND.status);

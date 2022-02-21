@@ -6,7 +6,7 @@ const deviceByIdMiddleware = require('../middlewares/deviceById.middleware');
 router.get('/',
     deviceController.getAllDevice);
 
-router.get('/:user_id',
+router.get('/:device_id',
     deviceByIdMiddleware.checkIdMiddleware,
     deviceController.getDeviceById
 );
@@ -18,9 +18,10 @@ router.post(
     deviceController.createDevice
 );
 
-// router.put('/:device_id',
-//     deviceController.
-// );
+router.put('/:device_id',
+    deviceByIdMiddleware.checkIdMiddleware,
+    deviceController.updateDevice
+);
 
 router.delete(
     '/:device_id',

@@ -12,7 +12,9 @@ const templateParser = new EmailTemplates({
 });
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
     auth: {
         user: SYSTEM_EMAIL,
         pass: SYSTEM_PASSWORD
