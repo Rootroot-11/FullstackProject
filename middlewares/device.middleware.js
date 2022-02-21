@@ -5,10 +5,10 @@ const {BAD_REQUEST, ErrorHandler} = require("../errors");
 module.exports = {
     createDeviceMiddleware: async (req, res, next) => {
         try {
-            const {id} = req.body;
-            const deviceById = Device.findOne({id});
+            const {name} = req.body;
+            const deviceById = await Device.findOne({name});
             if (deviceById) {
-                throw new Error('fdkjfjdf');
+                throw new ErrorHandler(BAD_REQUEST.message, BAD_REQUEST.status);
             }
 
             next();

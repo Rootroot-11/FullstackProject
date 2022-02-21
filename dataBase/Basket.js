@@ -15,6 +15,10 @@ const basketSchema = new Schema({
         type: Number,
         required: true,
     },
+    image: {
+        type: Image,
+        default: 'aashdsw.jpg'
+    }
 
 }, {timestamps: true});
 

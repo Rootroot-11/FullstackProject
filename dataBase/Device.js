@@ -27,6 +27,10 @@ const deviceSchema = new Schema({
         type: Boolean,
         trim: true
     },
+    email: {
+        type: String,
+        trim: true
+    }
 }, {timestamps: true});
 
 module.exports = model('device', deviceSchema);

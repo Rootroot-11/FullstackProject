@@ -20,7 +20,9 @@ const createDeviceValidator = Joi.object({
     brand: Joi
         .string(),
     statusOnMagazine: Joi
-        .boolean()
+        .boolean(),
+    email: Joi
+        .string()
 });
 
 module.exports = {createDeviceValidator};

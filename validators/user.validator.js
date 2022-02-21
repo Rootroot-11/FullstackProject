@@ -10,8 +10,6 @@ const createUserValidator = Joi.object({
         .trim()
         .lowercase()
         .required(),
-    id: Joi
-        .number(),
     email: Joi
         .string()
         .regex(EMAIL_REGEX),

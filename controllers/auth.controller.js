@@ -1,6 +1,7 @@
 const jwtService = require('../service/jwt.service');
 const O_Auth = require('../dataBase/O_Auth');
 const userUtil = require("../utils/user.util");
+const EmailActionEnum = require('../configs/email-action.enum');
 
 module.exports = {
     registration: async (req, res, next) => {

@@ -1,4 +1,6 @@
 const Device = require('../dataBase/Device');
+const {WELCOME, POST_DEVICE} = require("../configs/email-action.enum");
+const {emailService} = require("../service");
 
 module.exports = {
     getAllDevice: async (req, res, next) => {
@@ -8,7 +10,7 @@ module.exports = {
             const keys = Object.keys(filters);
             const filterObject = {};
             const orderBy = order === 'asc' ? -1 : 1;
-            const sort = { [sortBy]: orderBy };
+            const sort = {[sortBy]: orderBy};
 
             keys.forEach((key) => {
                 switch (key) {
@@ -19,7 +21,7 @@ module.exports = {
                         filterObject.price = Object.assign({}, filterObject.price, {$lte: filters.priceLte});
                         break;
                     case 'name':
-                        filterObject.name = { $regex: filters.name, $options: 'i'};
+                        filterObject.name = {$regex: filters.name, $options: 'i'};
                         break;
                     default:
                         filterObject[key] = filters[key];
@@ -46,7 +48,7 @@ module.exports = {
 
     createDevice: async (req, res, next) => {
         try {
-            const {} = req.body;
+            const {email, device_name} = req.body;
             // const {img} = req.files;
             // let filename = uuid.v4() + ".jpg"
             // img.mv(path.resolve(__dirname, '--', 'static', filename))
@@ -54,6 +56,7 @@ module.exports = {
             //img get from s3 AWS
             const newDevice = await Device.create({...req.body});
 
+            await emailService.sendMail(email, POST_DEVICE, {device_name})
             res.json(newDevice);
         } catch (e) {
             next(e);
@@ -62,9 +65,9 @@ module.exports = {
 
     updateDevice: async (req, res, next) => {
         try {
-            const {device_id} = req.params;
+            const {price} = req.params;
 
-            const newDevice = await Device.findByIdAndUpdate(device_id);
+            const newDevice = await Device.findByIdAndUpdate(price);
 
             res.json(newDevice);
         } catch (e) {
@@ -74,11 +77,11 @@ module.exports = {
 
     deleteDevice: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
+            const {device_id} = req.params;
 
-            Device.findByIdAndDelete(user_id);
+            const deletedDevice = await Device.findByIdAndDelete(device_id);
 
-            res.json('Device is deleted');
+            res.json(deletedDevice);
         } catch (e) {
             next(e);
         }

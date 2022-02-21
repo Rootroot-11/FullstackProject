@@ -11,8 +11,10 @@ router.get('/:user_id',
     deviceController.getDeviceById
 );
 
-router.post('/',
+router.post(
+    '/',
     deviceMiddleware.isDeviceBodyValid,
+    deviceMiddleware.createDeviceMiddleware,
     deviceController.createDevice
 );
 
