@@ -1,36 +1,14 @@
 const Device = require('../dataBase/Device');
-const {WELCOME, POST_DEVICE, UPDATE} = require("../configs/email-action.enum");
-const {emailService} = require("../service");
+const {POST_DEVICE, UPDATE} = require("../configs/email-action.enum");
+const {emailService, deviceService} = require("../service");
+const {USER_DELETE} = require("../errors");
 
 module.exports = {
-    getAllDevice: async (req, res, next) => {
+    getAllDevices: async (req, res, next) => {
         try {
-            const {limit = 20, page = 1, sortBy = 'createdAt', order = 'asc', ...filters} = req.query;
-            const skip = (page - 1) * limit;
-            const keys = Object.keys(filters);
-            const filterObject = {};
-            const orderBy = order === 'asc' ? -1 : 1;
-            const sort = {[sortBy]: orderBy};
+            const devices = await deviceService.findDevices(req.query);
 
-            keys.forEach((key) => {
-                switch (key) {
-                    case 'priceGte':
-                        filterObject.price = Object.assign({}, filterObject.price, {$gte: filters.priceGte});
-                        break;
-                    case 'priceLte':
-                        filterObject.price = Object.assign({}, filterObject.price, {$lte: filters.priceLte});
-                        break;
-                    case 'name':
-                        filterObject.name = {$regex: filters.name, $options: 'i'};
-                        break;
-                    default:
-                        filterObject[key] = filters[key];
-                }
-            });
-
-            const oneDevice = await Device.find(filterObject).limit(limit).skip(skip);
-
-            res.json(oneDevice);
+            res.json(devices);
         } catch (e) {
             next(e);
         }
@@ -78,9 +56,9 @@ module.exports = {
         try {
             const {device_id} = req.params;
 
-            const deletedDevice = await Device.findByIdAndDelete(device_id);
+            await Device.findByIdAndDelete(device_id);
 
-            res.json(deletedDevice);
+            res.json(USER_DELETE.message, USER_DELETE.status);
         } catch (e) {
             next(e);
         }

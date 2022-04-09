@@ -1,28 +1,40 @@
 const jwtService = require('../service/jwt.service');
 const O_Auth = require('../dataBase/O_Auth');
 const userUtil = require("../utils/user.util");
-const EmailActionEnum = require('../configs/email-action.enum');
 
 module.exports = {
-    registration: async (req, res, next) => {
-        try {
-
-
-        } catch (e) {
-            next(e);
-        }
-    },
+    // registration: async (req, res, next) => {
+    //     try {
+    //       const {email} = req.body;
+    //
+    //       const user = User.findOne({email});
+    //
+    //       if(!user) {
+    //           throw new ErrorHandler(USER_NOT_FOUND.message);
+    //       }
+    //
+    //       const tokens = tokenizer();
+    //
+    //       res.json(tokens);
+    //
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // },
 
     login: async (req, res, next) => {
         try {
-            const user = req.user;
+            const {user} = req;
             const tokenPair = jwtService.generateTokenPair();
 
-            const normalizedUser = userUtil.userNormalizator(user);
-            await O_Auth.create({...tokenPair, user_id: normalizedUser._id});
+            const userNormalized = userUtil.userNormalizator(user);
+
+            await O_Auth.create({
+                ...tokenPair,
+                user_id: userNormalized._id});
 
             res.json({
-                user: normalizedUser,
+                user: userNormalized,
                 ...tokenPair
             });
         } catch (e) {
@@ -42,3 +54,4 @@ module.exports = {
         }
     }
 };
+

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^15.0.0",
     "email-templates": "^8.0.8",
     "express": "^4.17.2",
@@ -21,10 +22,11 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/email-templates": "^8.0.4",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/mongoose": "^5.11.97",
-    "@types/email-templates": "^8.0.4",
     "bcrypt": "^5.0.1",
     "nodemon": "^2.0.15",
     "sequelize": "^6.16.1",

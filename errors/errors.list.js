@@ -14,6 +14,11 @@ module.exports = {
         status: 404
     },
 
+    DEVICE_NOT_FOUND: {
+        message: 'Device not found',
+        status: 404
+    },
+
     WRONG_EMAIL_OR_PASSWORD: {
         message: 'Wrong email or password',
         status: 400

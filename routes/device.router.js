@@ -4,7 +4,7 @@ const deviceMiddleware = require('../middlewares/device.middleware');
 const deviceByIdMiddleware = require('../middlewares/deviceById.middleware');
 
 router.get('/',
-    deviceController.getAllDevice);
+    deviceController.getAllDevices);
 
 router.get('/:device_id',
     deviceByIdMiddleware.checkIdMiddleware,
