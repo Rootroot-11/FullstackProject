@@ -27,10 +27,3 @@ app.use('/devices', deviceRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
-app.get('/', (req, res) => {
-    res.end('<h1>Home page</h1>')
-})
-
-app.get('/about', (req, res) => {
-    res.end('<h1>About page</h1>')
-})
