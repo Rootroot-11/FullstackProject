@@ -5,7 +5,7 @@ module.exports = {
     },
 
     BAD_REQUEST: {
-        message: 'Body is not valid',
+        message: 'Body is not valid or bad request',
         status: 400
     },
 

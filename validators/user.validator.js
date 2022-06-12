@@ -11,12 +11,11 @@ const createUserValidator = Joi.object({
         .lowercase()
         .required(),
     email: Joi
-        .string()
-        .regex(EMAIL_REGEX),
+        .string(),
     password: Joi
         .string()
         .regex(PASSWORD_REGEX),
-    role: Joi
+    roles: Joi
         .string()
         .allow(...Object.values(userRolesEnum))
 });

@@ -2,13 +2,9 @@ const Device = require('../dataBase/Device');
 
 module.exports = {
     findDevices: async (query = {}) => {
-        console.log('___________');
-        console.log(query);
-        console.log('__________');
 
-        const {limit = 3, page = 1, sortBy = 'createdAt', order = 'asc', ...filters} = query;
-        console.log(page);
-        console.log(limit);
+        const {limit = 6, page = 1, sortBy = 'createdAt', order = 'asc', ...filters} = query;
+
         const skip = (page - 1) * limit;
         const keys = Object.keys(filters);
         const filterObject = {};
@@ -33,12 +29,14 @@ module.exports = {
 
         const devices = await Device.find(filterObject).limit(+limit).skip(skip).sort(sort);
         const count = await Device.countDocuments(filterObject);
+        const page_count = count / limit;
 
         return {
             data: devices,
             page,
             limit,
-            count
+            count,
+            page_count: Math.ceil(page_count)
         }
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
             const secretWord = tokenType === ACCESS ? ACCESS_SECRET_KEY : REFRESH_SECRET_KEY;
             await jwt.verify(token, secretWord);
         } catch (e) {
-            throw new ErrorHandler('Invalid token', 401);
+            throw new ErrorHandler(401, 'Invalid token');
         }
     }
 };

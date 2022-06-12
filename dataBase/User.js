@@ -4,7 +4,6 @@ const userRolesEnum = require('../configs/user-roles.enum');
 const userSchema = new Schema({
     nick_name: {
         type: String,
-        required: true,
         unique: true,
         trim: true,
     },
@@ -19,7 +18,7 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    role: {
+    roles: {
         type: String,
         default: userRolesEnum.VIEWER,
         enum: Object.values(userRolesEnum)

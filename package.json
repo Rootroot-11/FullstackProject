@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.3.7",
     "cors": "^2.8.5",
     "dotenv": "^15.0.0",
     "email-templates": "^8.0.8",

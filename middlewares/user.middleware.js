@@ -5,6 +5,7 @@ module.exports = {
     createUserMiddleware: async (req, res, next) => {
         try {
             const {email} = req.body;
+            const {user_id} = req.params;
 
             const userByEmail = await User.findOne({email}).select('-password');
 
@@ -12,6 +13,9 @@ module.exports = {
                 throw new ErrorHandler(BAD_REQUEST.message, BAD_REQUEST.status);
             }
 
+            const oneUser = await User.findById(user_id).select('-password');
+
+            req.user = oneUser;
             next();
         } catch (e) {
             next(e);
@@ -21,8 +25,7 @@ module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
             const userByEmail = await User
-                .findOne({email: req.body.email})
-                .select('+password');
+                .findOne({email: req.body.email});
 
             if (!userByEmail) {
                 throw new ErrorHandler(WRONG_EMAIL_OR_PASSWORD.message, WRONG_EMAIL_OR_PASSWORD.status);
@@ -44,6 +47,25 @@ module.exports = {
             }
 
             req.user = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkUserRole: (roleArr = []) => (req, res, next) => {
+        try {
+
+            const {roles} = req.user;
+
+            console.log('_____________');
+            console.log(roles);
+            console.log('_____________');
+
+            if(!roleArr.includes(roles)) {
+                throw new ErrorHandler('Access denied');
+            }
+
             next();
         } catch (e) {
             next(e);

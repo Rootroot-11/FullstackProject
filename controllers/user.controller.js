@@ -6,7 +6,7 @@ const {WELCOME} = require("../configs/email-action.enum");
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const users = await User.find({...req.user});
+            const users = await User.find();
 
             res.json(users);
         } catch (e) {
@@ -16,15 +16,15 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const { password, email, nick_name } = req.body;
+            const {password, email, nick_name} = req.body;
 
             const hashedPassword = await passwordService.hash(password);
 
             const newUser = await User.create({...req.body, password: hashedPassword});
             await emailService.sendMail(email, WELCOME, {nick_name});
-            userUtil.userNormalizator(newUser);
+            const finalUser = userUtil.userNormalizator(newUser);
 
-            res.json(newUser);
+            res.json(finalUser);
         } catch (e) {
             next(e);
         }

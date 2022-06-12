@@ -1,27 +1,11 @@
 const jwtService = require('../service/jwt.service');
 const O_Auth = require('../dataBase/O_Auth');
 const userUtil = require("../utils/user.util");
+const {BAD_REQUEST} = require("../errors");
+const ErrorHandler = require("../errors/ErrorHandler");
+const {verifyToken} = require("../service/jwt.service");
 
 module.exports = {
-    // registration: async (req, res, next) => {
-    //     try {
-    //       const {email} = req.body;
-    //
-    //       const user = User.findOne({email});
-    //
-    //       if(!user) {
-    //           throw new ErrorHandler(USER_NOT_FOUND.message);
-    //       }
-    //
-    //       const tokens = tokenizer();
-    //
-    //       res.json(tokens);
-    //
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // },
-
     login: async (req, res, next) => {
         try {
             const {user} = req;
@@ -44,9 +28,9 @@ module.exports = {
 
     logout: async (req, res, next) => {
         try {
-            const {token} = req;
+            const access_token = req.get('Authorization');
 
-            await O_Auth.deleteOne({access_token: token});
+            await O_Auth.deleteOne({access_token});
 
             res.json('You are logout');
         } catch (e) {
