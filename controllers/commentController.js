@@ -3,7 +3,7 @@ const ErrorHandler = require("../errors/ErrorHandler");
 
 module.exports = {
     createComment: async (req, res) => {
-        const {rating, comment} = req.body;
+        const {comment} = req.body;
         const device = await Device.findById(req.params._id);
 
         if (device) {
@@ -15,16 +15,15 @@ module.exports = {
             }
             const review = {
                 nick_name: req.user.nick_name,
-                rating: Number(rating),
                 comment,
                 user: req.user._id
             };
         device.reviews.push(review);
         device.numberReviews = device.reviews.length;
-        device.rating =
-            device.reviews.reduce((acc, item) =>
-                item.rating + acc,0) /
-            device.reviews.length;
+        // device.rating =
+        //     device.reviews.reduce((acc, item) =>
+        //         item.rating + acc,0) /
+        //     device.reviews.length;
 
         await device.save();
         res.status(201).json({message: "Review added"});
