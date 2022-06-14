@@ -2,6 +2,8 @@ const User = require('../dataBase/User');
 const userUtil = require("../utils/user.util");
 const {passwordService, emailService} = require("../service");
 const {WELCOME} = require("../configs/email-action.enum");
+const ErrorHandler = require("../errors/ErrorHandler");
+const {userNormalizator} = require("../utils/user.util");
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -47,9 +49,9 @@ module.exports = {
 
     getUsersById: async (req, res, next) => {
         try {
-            const {user} = req;
+            const userToReturn = userNormalizator(req.user)
 
-            res.json(user);
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }

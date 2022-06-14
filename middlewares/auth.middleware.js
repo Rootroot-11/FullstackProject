@@ -25,13 +25,13 @@ module.exports = {
         }
         try {
             const token = req.headers.authorization.split(' ')[1];
-            if(!token) {
+            if (!token) {
                 return res.status(403).json({message: "Пользователь не авторизован"})
             }
 
             const decodedData = jwt.verify(token, ACCESS_SECRET_KEY);
 
-            // req.user = decodedData;
+            req.user = decodedData;
             next();
         } catch (e) {
             console.log(e);
@@ -43,20 +43,21 @@ module.exports = {
         try {
             const access_token = req.get('Authorization');
 
-           if (!access_token) {
-               throw new ErrorHandler(401, 'No token');
-           }
+            if (!access_token) {
+                throw new ErrorHandler(401, 'No token');
+            }
 
-           await verifyToken(access_token);
+            await verifyToken(access_token);
 
-           const tokenFromDb = await O_Auth.findOne({access_token});
+            const tokenFromDB = await O_Auth.findOne({access_token});
 
-           if(!tokenFromDb) {
-               throw new ErrorHandler(401, 'Not valid token');
-           }
+            if (!tokenFromDB) {
+                throw new ErrorHandler(401, 'Not valid token 111');
+            }
+
             next();
         } catch (e) {
             next(e);
         }
-    }
+    },
 };

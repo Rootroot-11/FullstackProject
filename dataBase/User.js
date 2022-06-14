@@ -4,7 +4,6 @@ const userRolesEnum = require('../configs/user-roles.enum');
 const userSchema = new Schema({
     nick_name: {
         type: String,
-        unique: true,
         trim: true,
     },
     email: {
@@ -22,6 +21,11 @@ const userSchema = new Schema({
         type: String,
         default: userRolesEnum.VIEWER,
         enum: Object.values(userRolesEnum)
+    },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {timestamps: true});
 

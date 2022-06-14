@@ -15,7 +15,6 @@ const oAuthSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     }
-
 }, { timestamps: true });
 
 module.exports = model('o_auth', oAuthSchema);

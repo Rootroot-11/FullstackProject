@@ -4,7 +4,8 @@ const userValidator = require('../validators/user.validator');
 const userMiddleware = require('../middlewares/user.middleware');
 const userByIdMiddleware = require('../middlewares/userById.middleware');
 const {authMiddleware} = require("../middlewares");
-const {ADMIN, VIEWER} = require("../configs/user-roles.enum");
+const {ADMIN} = require("../configs/user-roles.enum");
+const ErrorHandler = require("../errors/ErrorHandler");
 
 router.get(
     '/',
@@ -14,7 +15,7 @@ router.get(
 router.get(
     '/:user_id',
     userByIdMiddleware.checkIdMiddleware,
-    userMiddleware.checkUserRole(VIEWER),
+    authMiddleware.validateAccessToken,
     userController.getUsersById
 );
 

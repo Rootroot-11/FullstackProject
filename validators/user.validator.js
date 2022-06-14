@@ -17,7 +17,9 @@ const createUserValidator = Joi.object({
         .regex(PASSWORD_REGEX),
     roles: Joi
         .string()
-        .allow(...Object.values(userRolesEnum))
+        .allow(...Object.values(userRolesEnum)),
+    isAdmin: Joi
+        .string()
 });
 
 const updateUserValidator = Joi.object({
